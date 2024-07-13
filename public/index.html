@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+     <!-- Place favicon.ico in the root directory -->
+     <link rel="shortcut icon" type="image/x-icon" href="/img/logo/favicon.png">
+
+     <!-- CSS here -->
+     <link rel="stylesheet" href="/css/bootstrap.css">
+     <link rel="stylesheet" href="/css/animate.css">
+     <link rel="stylesheet" href="/css/swiper-bundle.css">
+     <link rel="stylesheet" href="/css/slick.css">
+     <link rel="stylesheet" href="/css/magnific-popup.css">
+     <link rel="stylesheet" href="/css/font-awesome-pro.css">
+     <link rel="stylesheet" href="/css/flaticon_shofy.css">
+     <link rel="stylesheet" href="/css/spacing.css">
+     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
     <noscript>
@@ -13,5 +26,85 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+
+
+     <!-- JS here -->
+     <script src="/js/vendor/jquery.js"></script>
+     <script src="/js/vendor/waypoints.js"></script>
+     <script src="/js/bootstrap-bundle.js"></script>
+     <script src="/js/meanmenu.js"></script>
+     <script src="/js/swiper-bundle.js"></script>
+     <script src="/js/slick.js"></script>
+     <script src="/js/range-slider.js"></script>
+     <script src="/js/magnific-popup.js"></script>
+     <script src="/js/nice-select.js"></script>
+     <script src="/js/purecounter.js"></script>
+     <script src="/js/countdown.js"></script>
+     <script src="/js/wow.js"></script>
+     <script src="/js/isotope-pkgd.js"></script>
+     <script src="/js/imagesloaded-pkgd.js"></script>
+     <script src="/js/ajax-form.js"></script>
+     <script src="/js/main.js"></script>
+
+
+     <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        new Swiper('.tp-slider-active', {
+          slidesPerView: 1,
+          spaceBetween: 30,
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+          },
+          speed: 1000,
+          effect: 'fade',
+          fadeEffect: {
+            crossFade: true
+          },
+          navigation: {
+            nextEl: '.tp-slider-button-next',
+            prevEl: '.tp-slider-button-prev',
+          },
+          pagination: {
+            el: '.tp-slider-dot',
+            clickable: true,
+          },
+          on: {
+            init: function () {
+              this.el.addEventListener('mouseenter', function () {
+                this.swiper.autoplay.stop();
+              });
+              this.el.addEventListener('mouseleave', function () {
+                this.swiper.autoplay.start();
+              });
+            },
+            slideChangeTransitionStart: function () {
+              let slides = this.slides;
+              for (let i = 0; i < slides.length; i++) {
+                let slide = slides[i];
+                let shapes = slide.querySelectorAll('.tp-slider-shape img');
+                shapes.forEach((shape) => {
+                  shape.style.opacity = '0';
+                  shape.style.transform = 'translateY(20px)';
+                });
+              }
+            },
+            slideChangeTransitionEnd: function () {
+              let activeSlide = this.slides[this.activeIndex];
+              let shapes = activeSlide.querySelectorAll('.tp-slider-shape img');
+              shapes.forEach((shape, index) => {
+                setTimeout(() => {
+                  shape.style.transition = 'opacity 0.5s, transform 0.5s';
+                  shape.style.opacity = '1';
+                  shape.style.transform = 'translateY(0)';
+                }, index * 200);
+              });
+            },
+          },
+        });
+      });
+    </script>
+     
   </body>
 </html>
