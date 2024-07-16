@@ -1,4 +1,60 @@
 <template>
+   <!-- cart mini area start -->
+   <div class="cartmini__area tp-all-font-roboto">
+         <div class="cartmini__wrapper d-flex justify-content-between flex-column">
+             <div class="cartmini__top-wrapper">
+                 <div class="cartmini__top p-relative">
+                     <div class="cartmini__top-title">
+                         <h4>Shopping cart</h4>
+                     </div>
+                     <div class="cartmini__close">
+                         <button type="button" class="cartmini__close-btn cartmini-close-btn"><i class="fal fa-times"></i></button>
+                     </div>
+                 </div>
+                 <div class="cartmini__shipping">
+                  <p> Free Shipping for all orders over <span>$50</span></p>
+                  <div class="progress">
+                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" data-width="70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                   </div>                   
+                 </div>
+                 <div class="cartmini__widget">
+                     <div class="cartmini__widget-item">
+                         <div class="cartmini__thumb">
+                           <a href="product-details.html">
+                              <img src="assets/img/product/product-1.jpg" alt="">
+                           </a>
+                         </div>
+                         <div class="cartmini__content">
+                           <h5 class="cartmini__title"><a href="product-details.html">Level Bolt Smart Lock</a></h5>
+                           <div class="cartmini__price-wrapper">
+                              <span class="cartmini__price">$46.00</span>
+                              <span class="cartmini__quantity">x2</span>
+                           </div>
+                         </div>
+                         <a href="#" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
+                     </div>
+                 </div>
+                 <!-- for wp -->
+                 <!-- if no item in cart -->
+                 <div class="cartmini__empty text-center d-none">
+                     <img src="assets/img/product/cartmini/empty-cart.png" alt="">
+                     <p>Your Cart is empty</p>
+                     <a href="shop.html" class="tp-btn">Go to Shop</a>
+                 </div>
+             </div>
+             <div class="cartmini__checkout">
+                 <div class="cartmini__checkout-title mb-30">
+                     <h4>Subtotal:</h4>
+                     <span>$113.00</span>
+                 </div>
+                 <div class="cartmini__checkout-btn">
+                     <a href="cart.html" class="tp-btn mb-10 w-100"> view cart</a>
+                     <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <!-- cart mini area end -->
     <!-- header area start -->
     <header>
          <div class="tp-header-area p-relative z-index-11">
@@ -73,13 +129,13 @@
                                  </a>
                               </div>
                               <div class="tp-header-action-item d-none d-lg-block">
-                                 <a href="wishlist.html" class="tp-header-action-btn">
+                                 <router-link to="/wishlist" class="tp-header-action-btn">
                                     <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.239 18.8538C13.4096 17.5179 15.4289 15.9456 17.2607 14.1652C18.5486 12.8829 19.529 11.3198 20.1269 9.59539C21.2029 6.25031 19.9461 2.42083 16.4289 1.28752C14.5804 0.692435 12.5616 1.03255 11.0039 2.20148C9.44567 1.03398 7.42754 0.693978 5.57894 1.28752C2.06175 2.42083 0.795919 6.25031 1.87187 9.59539C2.46978 11.3198 3.45021 12.8829 4.73806 14.1652C6.56988 15.9456 8.58917 17.5179 10.7598 18.8538L10.9949 19L11.239 18.8538Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                        <path d="M7.26062 5.05302C6.19531 5.39332 5.43839 6.34973 5.3438 7.47501" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg> 
                                     <span class="tp-header-action-badge">4</span>                          
-                                 </a>
+                                 </router-link>
                               </div>
                               <div class="tp-header-action-item">
                                  <button type="button" class="tp-header-action-btn cartmini-open-btn">

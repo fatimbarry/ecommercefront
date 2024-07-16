@@ -1,22 +1,23 @@
 <template>
   <div id="app">
     <HeaderComponent />
-    <HomeComponent />
-    <FooterComponent />
     <router-view></router-view>
+    <FooterComponent />
+    
   </div>
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue';
-import HomeComponent from './components/HomeComponent.vue';
+
 import FooterComponent from './components/FooterComponent.vue';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
   name: 'App',
   components: {
     HeaderComponent,
-    HomeComponent,
+  
     FooterComponent
   }
 };
