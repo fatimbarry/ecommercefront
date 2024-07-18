@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import WishList from '../components/WishList.vue';
 import HomeComponent  from '../components/HomeComponent.vue';
+import ShoppingCart from '../components/ShoppingCart.vue';
 
 
 
@@ -17,11 +18,11 @@ const routes = [
         component: HomeComponent
     },
 
-    // {
-    //     path: '/login',
-    //     name: 'LoginForm',
-    //     component: LoginForm
-    //   },
+    {
+        path: '/ShoppingCart',
+        name: 'ShoppingCart',
+        component: ShoppingCart
+      },
 
     // {
     //     name: 'AddQuestion',
