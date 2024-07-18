@@ -43,7 +43,8 @@ export default {
           id: product.id,
           name: product.name,
           price: product.price,
-          quantity: 1
+          quantity: 1,
+          photo:product.photo
         });
       }
       

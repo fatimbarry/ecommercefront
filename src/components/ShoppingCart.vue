@@ -36,7 +36,7 @@
               </thead>
               <tbody>
                 <tr v-for="item in cart" :key="item.id">
-                  <td class="tp-cart-img"><a href="#"> <img :src="item.photo" :alt="item.name"></a></td>
+                  <td class="tp-cart-img"><a href="#"> <img :src="'http://127.0.0.1:8000/storage/' + item.photo" :alt="item.name"></a></td>
                   <td class="tp-cart-title"><a href="#">{{ item.name }}</a></td>
                   <td class="tp-cart-price"><span>${{ formatPrice(item.price) }}</span></td>
                   <td class="tp-cart-quantity">
