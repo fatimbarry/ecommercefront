@@ -56,6 +56,16 @@
                                  <input type="email" placeholder="">
                               </div>
                            </div>
+                           <div class="col-md-12">
+                                       <div class="tp-checkout-input">
+                                          <label>Street address</label>
+                                          <input type="text" placeholder="House number and street name">
+                                       </div>
+
+                                       <div class="tp-checkout-input">
+                                          <input type="text" placeholder="Apartment, suite, unit, etc. (optional)">
+                                       </div>
+                                    </div>
                            
                         </div>
                      </div>
@@ -64,107 +74,74 @@
             </div>
          </div>
          <div class="col-lg-5">
-            <!-- checkout place order -->
-            <div class="tp-checkout-place white-bg">
-               <h3 class="tp-checkout-place-title">Your Order</h3>
+    <!-- checkout place order -->
+    <div class="tp-checkout-place white-bg">
+      <h3 class="tp-checkout-place-title">Your Order</h3>
 
-               <div class="tp-order-info-list">
-                  <ul>
+      <div class="tp-order-info-list">
+        <ul>
+          <!-- header -->
+          <li class="tp-order-info-list-header">
+            <h4>Product</h4>
+            <h4>Total</h4>
+          </li>
 
-                     <!-- header -->
-                     <li class="tp-order-info-list-header">
-                        <h4>Product</h4>
-                        <h4>Total</h4>
-                     </li>
+          <!-- item list -->
+          <li v-for="item in cart" :key="item.id" class="tp-order-info-list-desc">
+            <p>{{ item.name }} <span> x {{ item.quantity }}</span></p>
+            <span>${{ formatPrice(item.price * item.quantity) }}</span>
+          </li>
 
-                     <!-- item list -->
-                     <li class="tp-order-info-list-desc">
-                        <p>Xiaomi Redmi Note 9 Global V. <span> x 2</span></p>
-                        <span>$274:00</span>
-                     </li>
-                     <li class="tp-order-info-list-desc">
-                        <p>Office Chair Multifun <span> x 1</span></p>
-                        <span>$74:00</span>
-                     </li>
-                     <li class="tp-order-info-list-desc">
-                        <p>Apple Watch Series 6 Stainless  <span> x 3</span></p>
-                        <span>$362:00</span>
-                     </li>
-                     <li class="tp-order-info-list-desc">
-                        <p>Body Works Mens Collection <span> x 1</span></p>
-                        <span>$145:00</span>
-                     </li>
+          <!-- subtotal -->
+          <li class="tp-order-info-list-subtotal">
+            <span>Subtotal</span>
+            <span>${{ formatPrice(cartTotal) }}</span>
+          </li>
 
-                     <!-- subtotal -->
-                     <li class="tp-order-info-list-subtotal">
-                        <span>Subtotal</span>
-                        <span>$507.00</span>
-                     </li>
-
-                     <!-- shipping -->
-                     <li class="tp-order-info-list-shipping">
-                        <span>Shipping</span>
-                        <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
-                           <span>
-                              <input id="flat_rate" type="radio" name="shipping">
-                              <label for="flat_rate">Flat rate: <span>$20.00</span></label>
-                           </span>
-                           <span>
-                              <input id="local_pickup" type="radio" name="shipping">
-                              <label for="local_pickup">Local pickup: <span>$25.00</span></label>
-                           </span>
-                           <span>
-                              <input id="free_shipping" type="radio" name="shipping">
-                              <label for="free_shipping">Free shipping</label>
-                           </span>
-                        </div>
-                     </li>
-
-                     <!-- total -->
-                     <li class="tp-order-info-list-total">
-                        <span>Total</span>
-                        <span>$1,476.00</span>
-                     </li>
-                  </ul>
-               </div>
-               <div class="tp-checkout-payment">
-                  <div class="tp-checkout-payment-item">
-                     <input type="radio" id="back_transfer" name="payment">
-                     <label for="back_transfer" data-bs-toggle="direct-bank-transfer">Direct Bank Transfer</label>
-                     <div class="tp-checkout-payment-desc direct-bank-transfer">
-                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                     </div>
-                  </div>
-                  <div class="tp-checkout-payment-item">
-                     <input type="radio" id="cheque_payment" name="payment">
-                     <label for="cheque_payment">Cheque Payment</label>
-                     <div class="tp-checkout-payment-desc cheque-payment">
-                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                     </div>
-                  </div>
-                  <div class="tp-checkout-payment-item">
-                     <input type="radio" id="cod" name="payment">
-                     <label for="cod">Cash on Delivery</label>
-                     <div class="tp-checkout-payment-desc cash-on-delivery">
-                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                     </div>
-                  </div>
-                  <div class="tp-checkout-payment-item paypal-payment">
-                     <input type="radio" id="paypal" name="payment">
-                     <label for="paypal">PayPal <img src="/img/icon/payment-option.png" alt=""> <a href="#">What is PayPal?</a></label>
-                  </div>
-               </div>
-               <div class="tp-checkout-agree">
-                  <div class="tp-checkout-option">
-                     <input id="read_all" type="checkbox">
-                     <label for="read_all">I have read and agree to the website.</label>
-                  </div>
-               </div>
-               <div class="tp-checkout-btn-wrapper">
-                  <a href="#" class="tp-checkout-btn w-100">Place Order</a>
-               </div>
+          <!-- shipping -->
+          <li class="tp-order-info-list-shipping">
+            <span>Shipping</span>
+            <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
+              <span>
+                <input id="flat_rate" type="radio" name="shipping" v-model="shippingMethod" value="flat_rate">
+                <label for="flat_rate">Flat rate: <span>$20.00</span></label>
+              </span>
+              <span>
+                <input id="local_pickup" type="radio" name="shipping" v-model="shippingMethod" value="local_pickup">
+                <label for="local_pickup">Local pickup: <span>$25.00</span></label>
+              </span>
+              <span>
+                <input id="free_shipping" type="radio" name="shipping" v-model="shippingMethod" value="free_shipping">
+                <label for="free_shipping">Free shipping</label>
+              </span>
             </div>
-         </div>
+          </li>
+
+          <!-- total -->
+          <li class="tp-order-info-list-total">
+            <span>Total</span>
+            <span>${{ formatPrice(orderTotal) }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Payment methods -->
+      <div class="tp-checkout-payment">
+        <!-- ... (le reste du code pour les méthodes de paiement) ... -->
+      </div>
+
+      <div class="tp-checkout-agree">
+        <div class="tp-checkout-option">
+          <input id="read_all" type="checkbox" v-model="agreementChecked">
+          <label for="read_all">I have read and agree to the website.</label>
+        </div>
+      </div>
+
+      <div class="tp-checkout-btn-wrapper">
+        <a href="#" class="tp-checkout-btn w-100" @click.prevent="placeOrder" :class="{ 'disabled': !agreementChecked }">Place Order</a>
+      </div>
+    </div>
+  </div>
       </div>
    </div>
 </section>
@@ -177,7 +154,49 @@
 
 <script>
 export default{
-    name: 'CheckoutComponent',
-}
+   name: 'CheckoutComponent',
+   props: {
+      cart: {
+         type: Array,
+         required: true
+      }
+   },
+  data() {
+    return {
+      shippingMethod: 'flat_rate',
+      agreementChecked: false
+    }
+  },
+  computed: {
+    cartTotal() {
+      return this.cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    },
+    shippingCost() {
+      switch(this.shippingMethod) {
+        case 'flat_rate': return 20;
+        case 'local_pickup': return 25;
+        case 'free_shipping': return 0;
+        default: return 0;
+      }
+    },
+    orderTotal() {
+      return this.cartTotal + this.shippingCost;
+    }
+  },
+  methods: {
+    formatPrice(price) {
+      return price.toFixed(2);
+    },
+    placeOrder() {
+      if (this.agreementChecked) {
+        // Logique pour passer la commande
+        console.log('Order placed');
+        // Vous pouvez ajouter ici la logique pour envoyer la commande au serveur
+      } else {
+        alert('Please agree to the terms before placing your order.');
+      }
+    }
+  }
 
+}
 </script>

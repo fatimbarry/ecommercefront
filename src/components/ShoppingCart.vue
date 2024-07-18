@@ -75,12 +75,13 @@
               <span class="tp-cart-checkout-top-price">${{ formatPrice(cartTotal) }}</span>
             </div>
             <div class="tp-cart-checkout-proceed">
-              <a href="checkout.html" class="tp-cart-checkout-btn w-100">Proceed to Checkout</a>
+              <a href="#" class="tp-cart-checkout-btn w-100" @click.prevent="showCheckoutDialog">Proceed to Checkout</a>
             </div>
+          </div>
           </div>
         </div>
       </div>
-    </div>
+    
   </section>
 <!-- cart area end -->
 
@@ -105,6 +106,35 @@ export default {
     }
   },
   methods: {
+    showCheckoutDialog() {
+      Swal.fire({
+        title: 'Contact Information',
+        html:
+          '<input id="swal-input1" class="swal2-input" placeholder="Name">' +
+          '<input id="swal-input2" class="swal2-input" placeholder="Phone">',
+        focusConfirm: false,
+        preConfirm: () => {
+          const name = Swal.getPopup().querySelector('#swal-input1').value
+          const phone = Swal.getPopup().querySelector('#swal-input2').value
+          if (!name || !phone) {
+            Swal.showValidationMessage(`Please enter name and phone`)
+          }
+          if (!/^[0-9]+$/.test(phone)) {
+          Swal.showValidationMessage(`Phone number must contain only digits`)
+        }
+          return { name, phone }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const { name, phone } = result.value
+          localStorage.setItem('checkoutName', name)
+          localStorage.setItem('checkoutPhone', phone)
+          this.showToast(`Contact information saved`)
+          // Ici, vous pouvez ajouter la logique pour rediriger vers la page de paiement
+          this.$router.push('/CheckoutComponent')
+        }
+      })
+    },
     increaseQuantity(item) {
       const newCart = JSON.parse(JSON.stringify(this.cart)); // Copie profonde
       const updatedItem = newCart.find(cartItem => cartItem.id === item.id);
