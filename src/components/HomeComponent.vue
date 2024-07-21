@@ -18,8 +18,8 @@
                <div class="row align-items-center">
                   <div class="col-xl-5 col-lg-6 col-md-6">
                      <div class="tp-slider-content p-relative z-index-1">
-                        <span>Starting at <b>$274.00</b></span>
-                        <h3 class="tp-slider-title">The best tablet Collection 2023</h3>
+                        <span>Starting at <b>274000 FCFA</b></span>
+                        <h3 class="tp-slider-title">The best tablet Collection 2024</h3>
                         <p>Exclusive offer 
                            <span>-35% 
                               <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +57,7 @@
                <div class="row align-items-center">
                   <div class="col-xl-5 col-lg-6 col-md-6">
                      <div class="tp-slider-content p-relative z-index-1">
-                        <span>Starting at <b>$999.00</b></span>
+                        <span>Starting at <b>999.00 FCFA</b></span>
                         <h3 class="tp-slider-title">The best note book collection 2023</h3>
                         <p>Exclusive offer 
                            <span>-10% 
@@ -96,7 +96,7 @@
                <div class="row align-items-center">
                   <div class="col-xl-5 col-lg-6 col-md-6">
                      <div class="tp-slider-content p-relative z-index-1">
-                        <span>Starting at <b>$999.00</b></span>
+                        <span>Starting at <b>999.00 FCFA</b></span>
                         <h3 class="tp-slider-title">The best note book collection 2023</h3>
                         <p>Exclusive offer 
                            <span>-10% 
@@ -313,9 +313,50 @@
 <section class="tp-product-area pb-55">
     <div class="container">
       <div class="row align-items-end">
-        <!-- Titre et onglets (comme dans votre HTML original) -->
-        <!-- ... -->
-      </div>
+                  <div class="col-xl-5 col-lg-6 col-md-5">
+                     <div class="tp-section-title-wrapper mb-40">
+                        <h3 class="tp-section-title">Trending Products 
+
+                           <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                           </svg>
+                        </h3>
+                     </div>
+                  </div>
+                  <div class="col-xl-7 col-lg-6 col-md-7">
+                     <div class="tp-product-tab tp-product-tab-border mb-45 tp-tab d-flex justify-content-md-end">
+                        <ul class="nav nav-tabs justify-content-sm-end" id="productTab" role="tablist">
+                           <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="new-tab" data-bs-toggle="tab" data-bs-target="#new-tab-pane" type="button" role="tab" aria-controls="new-tab-pane" aria-selected="true">New
+                              <span class="tp-product-tab-line">
+                                 <svg width="52" height="13" viewBox="0 0 52 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8.97127C11.6061 -5.48521 33 3.99996 51 11.4635" stroke="currentColor" stroke-width="2" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                                    </svg>
+                              </span>
+                              </button>
+                           </li>
+                           <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="featured-tab" data-bs-toggle="tab" data-bs-target="#featured-tab-pane" type="button" role="tab" aria-controls="featured-tab-pane" aria-selected="false">Featured
+                              <span class="tp-product-tab-line">
+                                 <svg width="52" height="13" viewBox="0 0 52 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8.97127C11.6061 -5.48521 33 3.99996 51 11.4635" stroke="currentColor" stroke-width="2" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                                    </svg>
+                              </span>
+                              </button>
+                           </li>
+                           <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="topsell-tab" data-bs-toggle="tab" data-bs-target="#topsell-tab-pane" type="button" role="tab" aria-controls="topsell-tab-pane" aria-selected="false">Top Sellers
+                              <span class="tp-product-tab-line">
+                                 <svg width="52" height="13" viewBox="0 0 52 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8.97127C11.6061 -5.48521 33 3.99996 51 11.4635" stroke="currentColor" stroke-width="2" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                                 </svg>
+                              </span>
+                              </button>
+                           </li>
+                        </ul>                         
+                     </div>
+                  </div>
+               </div>
       <div class="row">
         <div v-for="product in products" :key="product.id" class="col-xl-3 col-lg-3 col-sm-6">
           <div class="tp-product-item p-relative transition-3 mb-25">
@@ -323,12 +364,6 @@
               <a href="#">
                 <img :src="'http://127.0.0.1:8000/storage/' + product.photo" :alt="product.name" style="width: 294px; height: 294px;">
               </a>
-
-              <!-- product badge -->
-              <div class="tp-product-badge">
-                <span class="product-hot">Hot</span>
-              </div>
-
               <!-- product action -->
               <div class="tp-product-action">
                 <div class="tp-product-action-item d-flex flex-column">
@@ -360,6 +395,7 @@
               </h3>
               <div class="tp-product-rating d-flex align-items-center">
                 <div class="tp-product-rating-icon">
+                  
                   <!-- Vous pouvez ajouter ici une logique pour afficher les étoiles en fonction de la note du produit -->
                 </div>
                 <div class="tp-product-rating-text">
@@ -367,7 +403,7 @@
                 </div>
               </div>
               <div class="tp-product-price-wrapper">
-                <span class="tp-product-price new-price">{{ product.price }}</span>
+                <span class="tp-product-price new-price">{{ product.price }} FCFA</span>
               </div>
             </div>
           </div>
@@ -415,7 +451,7 @@
                               <div class="swiper-wrapper">
                                  <div class="tp-product-gadget-banner-item swiper-slide include-bg" data-background="/img/product/gadget/gadget-banner-1.jpg">
                                     <div class="tp-product-gadget-banner-content">
-                                       <span class="tp-product-gadget-banner-price">Only $99.00</span>
+                                       <span class="tp-product-gadget-banner-price">Only 99.00 FCFA</span>
                                        <h3 class="tp-product-gadget-banner-title">
                                           <a href="product-details.html">Selected novelty <br> Products</a>
                                        </h3>
@@ -423,7 +459,7 @@
                                  </div>
                                  <div class="tp-product-gadget-banner-item swiper-slide include-bg" data-background="/img/product/gadget/gadget-banner-2.jpg">
                                     <div class="tp-product-gadget-banner-content">
-                                       <span class="tp-product-gadget-banner-price">Only $55.00</span>
+                                       <span class="tp-product-gadget-banner-price">Only 55.00 FCFA</span>
                                        <h3 class="tp-product-gadget-banner-title">
                                           <a href="product-details.html">Top Rated <br> Products</a>
                                        </h3>
@@ -1332,152 +1368,6 @@
 </section>
 <!-- product sm area end -->
 
-<!-- blog area start -->
-<section class="tp-blog-area pt-50 pb-75">
-   <div class="container">
-      <div class="row align-items-end">
-         <div class="col-xl-4 col-md-6">
-            <div class="tp-section-title-wrapper mb-50">
-               <h3 class="tp-section-title">Latest news & articles
-
-                  <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round"/>
-                  </svg>
-               </h3>
-            </div>
-         </div>
-         <div class="col-xl-8 col-md-6">
-            <div class="tp-blog-more-wrapper d-flex justify-content-md-end">
-               <div class="tp-blog-more mb-50 text-md-end">
-                  <a href="blog-grid.html" class="tp-btn tp-btn-2 tp-btn-blue">View All Blog 
-                     <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                     </svg>
-                  </a>
-                  <span class="tp-blog-more-border"></span>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="row">
-         <div class="col-xl-12">
-            <div class="tp-blog-main-slider">
-               <div class="tp-blog-main-slider-active swiper-container">
-                  <div class="swiper-wrapper">
-                     <div class="tp-blog-item mb-30 swiper-slide">
-                        <div class="tp-blog-thumb p-relative fix">
-                           <a href="blog-details.html">
-                              <img src="/img/blog/blog-1.jpg" alt="">
-                           </a>
-                           <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>14 July, 2022</span>
-                           </div>
-                        </div>
-                        <div class="tp-blog-content">
-                           <h3 class="tp-blog-title">
-                              <a href="blog-details.html">The Modern Art Clay Ceramics.</a>
-                           </h3>
-   
-                           <div class="tp-blog-tag">
-                              <span><i class="fa-light fa-tag"></i></span>
-                              <a href="#">Tablet,</a>
-                              <a href="#">News</a>
-                           </div>
-   
-                           <p>The world is an amazing place providing an incredible assortment of interesting locations across.</p>
-   
-                           <div class="tp-blog-btn">
-                              <a href="blog-details.html" class="tp-btn-2 tp-btn-border-2">
-                                 Read More 
-                                 <span>
-                                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                       <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                       
-                                 </span>
-                              </a>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="tp-blog-item mb-30 swiper-slide">
-                        <div class="tp-blog-thumb p-relative fix">
-                           <a href="blog-details.html">
-                              <img src="/img/blog/blog-2.jpg" alt="">
-                           </a>
-                           <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>10 Nov, 2022</span>
-                           </div>
-                        </div>
-                        <div class="tp-blog-content">
-                           <h3 class="tp-blog-title">
-                              <a href="blog-details.html">How clothes are linked to climate</a>
-                           </h3>
-
-                           <div class="tp-blog-tag">
-                              <span><i class="fa-light fa-tag"></i></span>
-                              <a href="#">Monitor,</a>
-                              <a href="#">Technology</a>
-                           </div>
-
-                           <p>The world is an amazing place providing an incredible assortment of interesting locations across.</p>
-
-                           <div class="tp-blog-btn">
-                              <a href="blog-details.html" class="tp-btn-2 tp-btn-border-2">
-                                 Read More 
-                                 <span>
-                                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                       <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                       
-                                 </span>
-                              </a>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="tp-blog-item mb-30 swiper-slide">
-                        <div class="tp-blog-thumb p-relative fix">
-                           <a href="blog-details.html">
-                              <img src="/img/blog/blog-3.jpg" alt="">
-                           </a>
-                           <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>20 June, 2023</span>
-                           </div>
-                        </div>
-                        <div class="tp-blog-content">
-                           <h3 class="tp-blog-title">
-                              <a href="blog-details.html">The Sound Of Fashion: Malcolm</a>
-                           </h3>
-
-                           <div class="tp-blog-tag">
-                              <span><i class="fa-light fa-tag"></i></span>
-                              <a href="#">Microphone,</a>
-                              <a href="#">Computer</a>
-                           </div>
-
-                           <p>The world is an amazing place providing an incredible assortment of interesting locations across.</p>
-
-                           <div class="tp-blog-btn">
-                              <a href="blog-details.html" class="tp-btn-2 tp-btn-border-2">
-                                 Read More 
-                                 <span>
-                                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                       <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                       
-                                 </span>
-                              </a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
-<!-- blog area end -->
 
 <!-- instagram area start -->
 <div class="tp-instagram-area pb-70">

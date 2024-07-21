@@ -38,7 +38,7 @@
                 <tr v-for="item in cart" :key="item.id">
                   <td class="tp-cart-img"><a href="#"> <img :src="'http://127.0.0.1:8000/storage/' + item.photo" :alt="item.name"></a></td>
                   <td class="tp-cart-title"><a href="#">{{ item.name }}</a></td>
-                  <td class="tp-cart-price"><span>${{ formatPrice(item.price) }}</span></td>
+                  <td class="tp-cart-price"><span>{{ formatPrice(item.price) }} FCFA</span></td>
                   <td class="tp-cart-quantity">
                     <div class="tp-product-quantity mt-10 mb-10">
                       <span class="tp-cart-minus" @click="decreaseQuantity(item)">
@@ -72,10 +72,32 @@
           <div class="tp-cart-checkout-wrapper">
             <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between">
               <span class="tp-cart-checkout-top-title">Subtotal</span>
-              <span class="tp-cart-checkout-top-price">${{ formatPrice(cartTotal) }}</span>
+              <span class="tp-cart-checkout-top-price">{{ formatPrice(cartTotal) }} FCFA</span>
             </div>
+            <div class="tp-cart-checkout-shipping">
+                           <h4 class="tp-cart-checkout-shipping-title">Shipping</h4>
+
+                           <div class="tp-cart-checkout-shipping-option-wrapper">
+                              <div class="tp-cart-checkout-shipping-option">
+                                 <input id="flat_rate" type="radio" name="shipping">
+                                 <label for="flat_rate">Flat rate: <span>$20.00</span></label>
+                              </div>
+                              <div class="tp-cart-checkout-shipping-option">
+                                 <input id="local_pickup" type="radio" name="shipping">
+                                 <label for="local_pickup">Local pickup: <span> 25.00 FCFA</span></label>
+                              </div>
+                              <div class="tp-cart-checkout-shipping-option">
+                                 <input id="free_shipping" type="radio" name="shipping">
+                                 <label for="free_shipping">Free shipping</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
+                           <span>Total</span>
+                           <span>{{ formatPrice(cartTotal) }} FCFA</span>
+                        </div>
             <div class="tp-cart-checkout-proceed">
-              <a href="#" class="tp-cart-checkout-btn w-100" @click.prevent="showCheckoutDialog">Proceed to Checkout</a>
+              <a href="#" class="tp-cart-checkout-btn w-100" @click.prevent="handleCheckout">Proceed to Checkout</a>
             </div>
           </div>
           </div>
@@ -90,6 +112,7 @@
 
 <script>
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 export default {
   name: 'ShoppingCart',
@@ -106,37 +129,48 @@ export default {
     }
   },
   methods: {
-    showCheckoutDialog() {
+    handleCheckout() {
       Swal.fire({
-        title: 'Contact Information',
+        title: 'Enter your contact information',
         html:
           '<input id="swal-input1" class="swal2-input" placeholder="Name">' +
-          '<input id="swal-input2" class="swal2-input" placeholder="Phone">',
+          '<input id="swal-input2" class="swal2-input" placeholder="Phone Number">',
         focusConfirm: false,
+        confirmButtonText: 'Valider',
+        
         preConfirm: () => {
-          const name = Swal.getPopup().querySelector('#swal-input1').value
-          const phone = Swal.getPopup().querySelector('#swal-input2').value
-          if (!name || !phone) {
-            Swal.showValidationMessage(`Please enter name and phone`)
+          const name = document.getElementById('swal-input1').value;
+          const phone_number = document.getElementById('swal-input2').value;
+          
+          if (name && phone_number) {
+            const apiUrl = `/customers/find/${encodeURIComponent(name)}/${encodeURIComponent(phone_number)}`;
+            
+            return axios.get(apiUrl)
+              .then(response => {
+                if (!response.data.success) {
+                  throw new Error('Customer not found');
+                }
+                return response.data.data;
+              })
+              .then(customer => {
+                localStorage.setItem('tempCustomerData', JSON.stringify(customer));
+                this.$router.push({ path: '/CheckoutComponent' });
+              })
+              .catch(error => {
+                console.error('Error fetching customer:', error);
+                localStorage.setItem('tempCustomerData', JSON.stringify({ name, phone_number }));
+                this.$router.push({ path: '/CheckoutComponent' });
+              });
+          } else {
+            Swal.showValidationMessage('Please enter name and phone number');
+            return false;
           }
-          if (!/^[0-9]+$/.test(phone)) {
-          Swal.showValidationMessage(`Phone number must contain only digits`)
         }
-          return { name, phone }
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const { name, phone } = result.value
-          localStorage.setItem('checkoutName', name)
-          localStorage.setItem('checkoutPhone', phone)
-          this.showToast(`Contact information saved`)
-          // Ici, vous pouvez ajouter la logique pour rediriger vers la page de paiement
-          this.$router.push('/CheckoutComponent')
-        }
-      })
+      });
     },
+    
     increaseQuantity(item) {
-      const newCart = JSON.parse(JSON.stringify(this.cart)); // Copie profonde
+      const newCart = JSON.parse(JSON.stringify(this.cart));
       const updatedItem = newCart.find(cartItem => cartItem.id === item.id);
       if (updatedItem) {
         updatedItem.quantity = (updatedItem.quantity || 0) + 1;
@@ -144,8 +178,9 @@ export default {
       this.$emit('update:cart', newCart);
       this.showToast(`Increased quantity of ${item.name}`);
     },
+
     decreaseQuantity(item) {
-      const newCart = JSON.parse(JSON.stringify(this.cart)); // Copie profonde
+      const newCart = JSON.parse(JSON.stringify(this.cart));
       const updatedItem = newCart.find(cartItem => cartItem.id === item.id);
       if (updatedItem && updatedItem.quantity > 1) {
         updatedItem.quantity -= 1;
@@ -153,14 +188,17 @@ export default {
         this.showToast(`Decreased quantity of ${item.name}`);
       }
     },
+
     removeItem(item) {
       const newCart = this.cart.filter(cartItem => cartItem.id !== item.id);
       this.$emit('update:cart', newCart);
       this.showToast(`Removed ${item.name} from cart`);
     },
+
     formatPrice(price) {
       return price != null ? Number(price).toFixed(2) : '0.00';
     },
+
     showToast(message) {
       Swal.fire({
         toast: true,
