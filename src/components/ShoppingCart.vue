@@ -30,6 +30,7 @@
                 <tr>
                   <th colspan="2" class="tp-cart-header-product">Product</th>
                   <th class="tp-cart-header-price">Price</th>
+
                   <th class="tp-cart-header-quantity">Quantity</th>
                   <th></th>
                 </tr>
@@ -38,7 +39,7 @@
                 <tr v-for="item in cart" :key="item.id">
                   <td class="tp-cart-img"><a href="#"> <img :src="'http://127.0.0.1:8000/storage/' + item.photo" :alt="item.name"></a></td>
                   <td class="tp-cart-title"><a href="#">{{ item.name }}</a></td>
-                  <td class="tp-cart-price"><span>{{ formatPrice(item.price) }} FCFA</span></td>
+                  <td class="tp-cart-price"><span>{{ formatPrice(item.price) }}FCFA</span></td>
                   <td class="tp-cart-quantity">
                     <div class="tp-product-quantity mt-10 mb-10">
                       <span class="tp-cart-minus" @click="decreaseQuantity(item)">
@@ -74,27 +75,10 @@
               <span class="tp-cart-checkout-top-title">Subtotal</span>
               <span class="tp-cart-checkout-top-price">{{ formatPrice(cartTotal) }} FCFA</span>
             </div>
-            <div class="tp-cart-checkout-shipping">
-                           <h4 class="tp-cart-checkout-shipping-title">Shipping</h4>
-
-                           <div class="tp-cart-checkout-shipping-option-wrapper">
-                              <div class="tp-cart-checkout-shipping-option">
-                                 <input id="flat_rate" type="radio" name="shipping">
-                                 <label for="flat_rate">Flat rate: <span>$20.00</span></label>
-                              </div>
-                              <div class="tp-cart-checkout-shipping-option">
-                                 <input id="local_pickup" type="radio" name="shipping">
-                                 <label for="local_pickup">Local pickup: <span> 25.00 FCFA</span></label>
-                              </div>
-                              <div class="tp-cart-checkout-shipping-option">
-                                 <input id="free_shipping" type="radio" name="shipping">
-                                 <label for="free_shipping">Free shipping</label>
-                              </div>
-                           </div>
-                        </div>
+            
                         <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
                            <span>Total</span>
-                           <span>{{ formatPrice(cartTotal) }} FCFA</span>
+                           <span>{{ formatPrice(cartTotal) }}FCFA</span>
                         </div>
             <div class="tp-cart-checkout-proceed">
               <a href="#" class="tp-cart-checkout-btn w-100" @click.prevent="handleCheckout">Proceed to Checkout</a>
@@ -111,8 +95,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default {
   name: 'ShoppingCart',
@@ -153,16 +137,20 @@ export default {
                 return response.data.data;
               })
               .then(customer => {
+                // Stocker les données du client dans le localStorage
                 localStorage.setItem('tempCustomerData', JSON.stringify(customer));
+                // Redirection vers la page de checkout
                 this.$router.push({ path: '/CheckoutComponent' });
               })
               .catch(error => {
                 console.error('Error fetching customer:', error);
+                // Stocker seulement le nom et le numéro de téléphone
                 localStorage.setItem('tempCustomerData', JSON.stringify({ name, phone_number }));
+                // Redirection vers la page de checkout
                 this.$router.push({ path: '/CheckoutComponent' });
               });
           } else {
-            Swal.showValidationMessage('Please enter name and phone number');
+            Swal.fire('Error', 'Please enter name and phone number', 'error');
             return false;
           }
         }
@@ -210,5 +198,5 @@ export default {
       });
     }
   }
-}
+};
 </script>

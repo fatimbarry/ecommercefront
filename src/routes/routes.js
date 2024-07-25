@@ -3,6 +3,7 @@ import WishList from '../components/WishList.vue';
 import HomeComponent  from '../components/HomeComponent.vue';
 import ShoppingCart from '../components/ShoppingCart.vue';
 import CheckoutComponent from '../components/CheckoutComponent.vue';
+import ProductDetail from '../components/ProductDetail.vue';
 
 
 
@@ -31,11 +32,12 @@ const routes = [
         component: CheckoutComponent
     },
 
-    // {
-    //     name: 'SignupForm',
-    //     path: '/SignUp',
-    //     component: SignupForm
-    // },
+    {
+        path: '/ProductDetail/:id',
+        name: 'ProductDetail',
+        component: ProductDetail,
+        props: true
+      }
 
     // {
     //     name: 'UsersList',

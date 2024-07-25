@@ -14,6 +14,8 @@ import App from './App.vue'
 
 
 import routes from './routes/routes'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap'
 
 
 

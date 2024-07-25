@@ -18,24 +18,95 @@
                      </div>
                      <div class="col-xl-6 col-lg-7 d-none d-lg-block">
                         <div class="tp-header-search pl-70">
-                           <form action="#">
-                              <div class="tp-header-search-wrapper d-flex align-items-center">
-                                 <div class="tp-header-search-box">
-                                    <input type="text" placeholder="Search for Products...">
-                                 </div>
-                                 
-                                 <div class="tp-header-search-btn">
-                                    <button type="submit">
-                                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                       </svg>                                          
-                                    </button>
+                           <form action="#" id="search-form" @submit.prevent="handleSubmit">
+                           <div class="tp-header-search-wrapper d-flex align-items-center">
+                              <div class="tp-header-search-box">
+                                 <input 
+                                 type="text" 
+                                 id="search-input" 
+                                 v-model="searchTerm"
+                                 @input="handleInput"
+                                 placeholder="Rechercher des produits..."
+                                 >
+                                 <div v-if="suggestions.length" class="suggestions">
+                                 <ul>
+                                    <li v-for="suggestion in suggestions" :key="suggestion.id" @click="selectSuggestion(suggestion)">
+                                       {{ suggestion.name }}
+                                    </li>
+                                 </ul>
                                  </div>
                               </div>
+                              <div class="tp-header-search-btn">
+                                 <button type="submit">
+                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 </svg>                                          
+                                 </button>
+                              </div>
+                           </div>
                            </form>
                         </div>
                      </div>
+                     <!-- Section pour afficher le produit sélectionné -->
+                     <div v-if="displayedProduct" class="product-display-section">
+                           <div class="row">
+                           <div class="col-xl-3 col-lg-3 col-sm-6">
+                              <div class="tp-product-item p-relative transition-3 mb-25">
+                                 <div class="tp-product-thumb p-relative fix m-img">
+                                 <router-link to="/ProductDetail/${productId}">
+                                    <img :src="'http://127.0.0.1:8000/storage/' + displayedProduct.photo" :alt="displayedProduct.name" style="width: 294px; height: 294px;">
+                                 </router-link>
+                                 <!-- product action -->
+                                 <div class="tp-product-action">
+                                    <div class="tp-product-action-item d-flex flex-column">
+                                       <button type="button" class="tp-product-action-btn tp-product-add-cart-btn" @click="addToCart(product)">
+                                       <i class="fal fa-cart-plus"></i>  
+                                       <span class="tp-product-tooltip">Add to Cart</span>
+                                       </button>
+                                       <router-link to="/ProductDetail/${productId}" type="button" class="tp-product-action-btn tp-product-quick-view-btn">
+                                       <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99938 5.64111C8.66938 5.64111 7.58838 6.72311 7.58838 8.05311C7.58838 9.38211 8.66938 10.4631 9.99938 10.4631C11.3294 10.4631 12.4114 9.38211 12.4114 8.05311C12.4114 6.72311 11.3294 5.64111 9.99938 5.64111ZM9.99938 11.9631C7.84238 11.9631 6.08838 10.2091 6.08838 8.05311C6.08838 5.89611 7.84238 4.14111 9.99938 4.14111C12.1564 4.14111 13.9114 5.89611 13.9114 8.05311C13.9114 10.2091 12.1564 11.9631 9.99938 11.9631Z" fill="currentColor"/>
+                                          <g mask="url(#mask0_1211_721)">
+                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M1.56975 8.05226C3.42975 12.1613 6.56275 14.6043 9.99975 14.6053C13.4368 14.6043 16.5697 12.1613 18.4298 8.05226C16.5697 3.94426 13.4368 1.50126 9.99975 1.50026C6.56375 1.50126 3.42975 3.94426 1.56975 8.05226ZM10.0017 16.1053H9.99775H9.99675C5.86075 16.1023 2.14675 13.2033 0.06075 8.34826C-0.02025 8.15926 -0.02025 7.94526 0.06075 7.75626C2.14675 2.90226 5.86175 0.00326172 9.99675 0.000261719C9.99875 -0.000738281 9.99875 -0.000738281 9.99975 0.000261719C10.0017 -0.000738281 10.0017 -0.000738281 10.0028 0.000261719C14.1388 0.00326172 17.8527 2.90226 19.9387 7.75626C20.0208 7.94526 20.0208 8.15926 19.9387 8.34826C17.8537 13.2033 14.1388 16.1023 10.0028 16.1053H10.0017Z" fill="currentColor"/>
+                                          </g>
+                                       </svg> 
+                                       <span class="tp-product-tooltip">Quick View</span>
+                                       </router-link>
+                                       <button type="button" class="tp-product-action-btn tp-product-add-to-wishlist-btn" @click="$emit('Quick-View', product)">
+                                       <i class="fal fa-heart"></i>
+                                       <span class="tp-product-tooltip">Add To Wishlist</span>
+                                       </button>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <!-- product content -->
+                                 <div class="tp-product-content">
+                                 <div class="tp-product-category">
+                                    <a href="#">{{ displayedProduct.category }}</a>
+                                 </div>
+                                 <h3 class="tp-product-title">
+                                    <a href="#">
+                                       {{ displayedProduct.name }}
+                                    </a>
+                                 </h3>
+                                 <div class="tp-product-rating d-flex align-items-center">
+                                    <div class="tp-product-rating-icon">
+                                       <!-- Vous pouvez ajouter ici une logique pour afficher les étoiles en fonction de la note du produit -->
+                                    </div>
+                                    <div class="tp-product-rating-text">
+                                       <span>({{ displayedProduct.reviews_count }} Review)</span>
+                                    </div>
+                                 </div>
+                                 <div class="tp-product-price-wrapper">
+                                    <span class="tp-product-price new-price">{{ displayedProduct.price }} FCFA</span>
+                                 </div>
+                                 </div>
+                              </div>
+                           </div>
+                           </div>
+                        </div>
+ 
                      <div class="col-xl-4 col-lg-3 col-md-8 col-6">
                         <div class="tp-header-main-right d-flex align-items-center justify-content-end">
                            <div class="tp-header-login d-none d-lg-block">
@@ -329,9 +400,23 @@
 </template>
 
 <script>
+import axios from '../services/axios.js';
+
 export default {
   name: 'HeaderComponent',
   props: ['cart','wishlist'],
+  data() {
+    return {
+      products: [],
+      searchTerm: '',
+      suggestions: [],
+      selectedProduct: null,
+      displayedProduct: null
+    }
+  },
+  mounted() {
+    this.fetchProducts();
+  },
   computed: {
     cartItemCount() {
       return this.cart.reduce((total, item) => total + item.quantity, 0);
@@ -342,8 +427,93 @@ export default {
 	wishlistItemCount() {
       return this.wishlist.length;
     }
+  },
+  methods: {
+    fetchProducts() {
+      axios.get('/products')
+        .then(response => {
+          console.log('products fetched:', response.data)
+          this.products = response.data
+        })
+        .catch(error => {
+          console.error('Error:', error)
+        })
+    },
+    addToCart(product) {
+    this.$emit('add-to-cart', product);
+  },
+    handleInput() {
+      if (this.searchTerm.length > 0) {
+        this.suggestions = this.products.filter(product => 
+          product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        ).slice(0, 5); // Limite les suggestions à 5 maximum
+      } else {
+        this.suggestions = [];
+      }
+    },
+    selectSuggestion(suggestion) {
+      this.searchTerm = suggestion.name;
+      this.suggestions = [];
+      this.selectedProduct = suggestion;
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      if (this.selectedProduct) {
+        this.displayProduct(this.selectedProduct);
+      } else {
+        const foundProduct = this.products.find(product => 
+          product.name.toLowerCase() === this.searchTerm.toLowerCase()
+        );
+        
+        if (foundProduct) {
+          this.displayProduct(foundProduct);
+        } else {
+          console.log('Aucun produit trouvé pour:', this.searchTerm);
+          this.displayedProduct = null; // Effacer le produit affiché si aucun n'est trouvé
+        }
+      }
+      
+      // Réinitialiser après la recherche
+      this.selectedProduct = null;
+      this.searchTerm = '';
+    },
+    displayProduct(product) {
+      this.displayedProduct = product;
+    },
+    viewProductDetails(productId) {
+      this.$router.replace(`/ProductDetail/${productId}`)
+    }
   }
 }
 </script>
+
+<style scoped>
+.suggestions {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestions ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+</style>
+
 
 

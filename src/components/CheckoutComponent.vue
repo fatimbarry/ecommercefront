@@ -128,7 +128,7 @@
                      </div>
                   </div>
                   <div class="tp-checkout-btn-wrapper">
-                     <button type="submit" class="primary-btn order-submit" :class="{ 'disabled': !agreementChecked }">Place order</button>
+                     <button type="submit" class="primary-btn order-submit tp-btn tp-btn-2 tp-btn-blue" :class="{ 'disabled': !agreementChecked }">Place order</button>
                   </div>
                </div>
             </div>
@@ -143,8 +143,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import axios from '../services/axios.js'
+import Swal from 'sweetalert2';
+import axios from '../services/axios.js';
+
 export default {
   name: 'CheckoutComponent',
   props: {
@@ -164,12 +165,9 @@ export default {
         address: '',
         phone_number: '',
         city: ''
-        
-        
       }
-    }
+    };
   },
-
   mounted() {
     this.loadCustomerData();
   },
@@ -193,25 +191,38 @@ export default {
     formatPrice(price) {
       return price.toFixed(2);
     },
-
     loadCustomerData() {
-      const storedCustomerData = JSON.parse(localStorage.getItem('tempCustomerData') || '{}');
-      if (storedCustomerData) {
-        // Mise à jour des champs billingDetails avec les données stockées
-        Object.keys(this.billingDetails).forEach(key => {
-          if (storedCustomerData[key]) {
-            this.billingDetails[key] = storedCustomerData[key];
-          }
-        });
+      const tempCustomerData = localStorage.getItem('tempCustomerData');
+      if (tempCustomerData) {
+        const customerData = JSON.parse(tempCustomerData);
+        this.billingDetails = {
+          name: customerData.name || '',
+          firstname: customerData.firstname || '',
+          email: customerData.email || '',
+          city: customerData.city || '',
+          address: customerData.address || '',
+          phone_number: customerData.phone_number || ''
+        };
+        localStorage.removeItem('tempCustomerData');
       }
     },
-  
-
-    
-    
+    validateFields() {
+      const fields = ['name', 'firstname', 'email', 'city', 'address', 'phone_number'];
+      for (let field of fields) {
+        if (!this.billingDetails[field]) {
+          Swal.fire({
+            title: 'Erreur!',
+            text: `Le champ ${field} est requis.`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          return false;
+        }
+      }
+      return true;
+    },
     placeOrder() {
-      //console.log('billingDetails:', this.billingDetails);
-      
+      if (this.validateFields()) {
         const orderData = {
           ...this.billingDetails,
           total_amount: this.cartTotal,
@@ -221,7 +232,7 @@ export default {
             price: item.price
           }))
         };
-        //console.log('orderData:', orderData);
+
         axios.post('/orders/store', orderData)
           .then(response => {
             if (response.data.success) {
@@ -231,7 +242,7 @@ export default {
                 icon: 'success',
                 confirmButtonText: 'OK'
               }).then(() => {
-                this.$router.push('/');
+                this.$router.push('/order-received');
                 this.$emit('clear-cart');
               });
             } else {
@@ -242,9 +253,8 @@ export default {
             console.error('Error placing order:', error);
             this.showError('Une erreur est survenue lors de la commande.');
           });
-      
+      }
     },
-    
     showError(message) {
       Swal.fire({
         title: 'Erreur!',
@@ -253,8 +263,6 @@ export default {
         confirmButtonText: 'OK'
       });
     }
-  },
-
-  
-}
+  }
+};
 </script>

@@ -5,6 +5,7 @@
     @add-to-cart="addToCart" 
     :wishlist="wishlist" 
     @Quick-View="addToWishlist" 
+    @remove-from-wishlist="removeFromWishlist" 
     ></router-view>
     <FooterComponent />
     
